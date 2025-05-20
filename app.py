@@ -48,9 +48,16 @@ def pix_confirmation():
     return jsonify({"message": "The payments has been confirmed"})
 
 
-@app.route('/payments/pix/<int:payments_id>', methods=['GET'])
-def payments_pix_page(payments_id):
-    return render_template('payment.html')
+@app.route('/payments/pix/<int:payment_id>', methods=['GET'])
+def payments_pix_page(payment_id):
+    payment = Payments.query.get(payment_id)
+
+    return render_template('payment.html', 
+                           payment_id=payment.id, 
+                           value=payment.value,
+                           host='http://127.0.0.1:5000',
+                           qrcode=payment.qrcode
+                        )
 
 
 if __name__ == '__main__':
